@@ -1,14 +1,17 @@
 name: Release Verdaccio Charts
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
     paths:
-      - 'charts/**'
+      - "charts/**"
 
 jobs:
   release:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,8 +28,8 @@ jobs:
         uses: azure/setup-helm@v4
         with:
           version: v3.4.0
-      
+
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.5.0
         env:
-          CR_TOKEN: "${{ secrets.CR_TOKEN }}"
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
